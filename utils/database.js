@@ -1,4 +1,5 @@
 const { all } = require("express/lib/application");
+const res = require("express/lib/response");
 const { MongoClient, ObjectId } = require("mongodb");
 
 const url = "mongodb://localhost:27017";
@@ -26,6 +27,21 @@ class Database {
         console.log(result);
     }
 
+    static async listMovies (ids, title) {
+        const movieCollection = await this.connectDB("movies");
+
+        
+        let filters = new Object();
+        filters["_id"] = {$in : ids};
+
+        if ( title ) {
+            filters["title"] = {'$regex' : title, '$options' : 'i'};
+        }
+
+        const result = await movieCollection.find(filters).toArray();
+        return result;
+    }
+
     static async List (collection, params) {
         const collectionList = await this.connectDB(collection);
 
@@ -37,25 +53,10 @@ class Database {
 
         
         const all_data = await collectionList.find(filters).toArray();
-        let resultArray = [];
+        const movieIds = all_data.map(data => data.movieId);
+        const movies = await this.listMovies(movieIds, params.title);
 
-        const compareTitles = async (element) => {
-            const movie = await this.getDataById("movies", element.movieId);
-
-            if (movie.title.toLowerCase().includes(params.title.toLowerCase())) {
-                console.log("O filme tem o nome buscado");
-                return true;
-            }
-
-            return false;
-
-        }
-
-        if ( params.title ) {
-            resultArray = all_data.filter(compareTitles);
-        }
-
-        return resultArray;
+        return movies;
     }
 
     static async connectDB (collection) {

@@ -1,4 +1,4 @@
-const Database = require('../utils/database');
+const Database = require("../utils/database");
 
 
 class MoviesModel {
@@ -21,7 +21,7 @@ class MoviesModel {
         let result = await Database.getDataById("movie_units", movieId);
 
         if ( result ) {
-            movie.userId = userId;
+            result.userId = userId;
             result = await Database.updateDataById("movie_units", movieId, movie);
             return result;
         }
@@ -31,7 +31,7 @@ class MoviesModel {
     }
 
     static async listMovies () {
-        const result = await Database.List("movie_units", {"avaliable" : true, "title" : "Dead"});
+        const result = await Database.List("movie_units", {"avaliable" : true, "title" : ""});
         console.log(result);
     }
 }
