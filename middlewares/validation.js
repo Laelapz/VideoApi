@@ -1,3 +1,5 @@
+const ApiError = require("../utils/apiError");
+
 const validate = (schema, data) => {
   const { error, value } = schema.validate(data);
 
@@ -21,7 +23,8 @@ const validationMiddleware = ({ bodySchema, paramsSchema }) => {
 
       return next();
     } catch (error) {
-      console.log("Schema not valid: "+error);
+      throw ApiError.badRequest("Schemma not valid", {});
+
     }
   };
 };

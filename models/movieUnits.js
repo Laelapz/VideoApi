@@ -25,7 +25,7 @@ class MovieUnitsModel extends Model {
     }
 
     async rentMovie (userId, movieId) {
-
+        console.log(movieId);
         let result = await this.findById(movieId);
 
         if ( !result ) {
@@ -45,7 +45,7 @@ class MovieUnitsModel extends Model {
         
     }
 
-    async listMovies (available) {
+    async listMovies ({available}) {
         const filter = {};
 
         if ( available ) {

@@ -1,14 +1,24 @@
 const express = require("express");
 const router = express.Router();
-const returnMovie = require("./returnMovie");
+const rentReturnMovie = require("./rentReturnMovie");
+const listMovies = require("./listMovies");
 
 const routeMiddleware = require("../../middlewares/route");
 const validationMiddleware = require("../../middlewares/validation");
+const authenticationMiddleware = require("../../middlewares/authentication");
 
-router.post(
+router.patch(
     "/:id",
-    validationMiddleware({ paramsSchema: returnMovie.paramsSchema }),
-    routeMiddleware(returnMovie.route)
+    authenticationMiddleware,
+    validationMiddleware({ bodySchema: rentReturnMovie.bodySchema, paramsSchema: rentReturnMovie.paramsSchema }),
+    routeMiddleware(rentReturnMovie.route)
+);
+
+router.get(
+    "/",
+    authenticationMiddleware,
+    validationMiddleware({paramsSchema: listMovies.paramsSchema}),
+    routeMiddleware(listMovies.route)
 );
 
 module.exports = router;

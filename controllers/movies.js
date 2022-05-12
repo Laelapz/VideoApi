@@ -1,28 +1,23 @@
 const MoviesModel = require("../models/movies");
+const MovieUnitsModel = require("../models/movieUnits");
 
 class MoviesController {
-    static async returnMovie (userId, id) {
-        const result = await MoviesModel.returnMovie(userId, id);
+    async returnMovie (userId, id) {
+        const result = await MovieUnitsModel.returnMovie(userId, id);
         return result;
     }
 
-    static async rentMovie (userId, movieId) {
-        const result = await MoviesModel.rentMovie(userId, movieId);
+    async rentMovie (userId, movieId) {
+        const result = await MovieUnitsModel.rentMovie(userId, movieId);
         return result;
     }
 
-    static async listMovies (params) {
-        const result = await MoviesModel.listMovies(params);
-        console.log(result);
+    async listMovies (params) {
+        const availableMovies = await MovieUnitsModel.listMovies(params);
+        const availableMoviesIds = availableMovies.map((movie) => movie.movieId);
+        const result = await MoviesModel.listMoviesByTitle(availableMoviesIds, params.title);
         return result;
     }
 }
 
-// MoviesController.rentMovie(12342, "6267041425674c76476debd4");
-// MoviesController.returnMovie(12342, "6267041425674c76476debd4");
-MoviesController.listMovies({
-    avaliable : false,
-    title: ""
-})
-
-module.exports = MoviesController;
+module.exports = new MoviesController();

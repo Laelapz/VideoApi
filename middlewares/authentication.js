@@ -1,3 +1,4 @@
+const ApiError = require("../utils/apiError");
 const jwt = require("jsonwebtoken");
 
 const secret = "S3nh4T0p";
@@ -10,8 +11,7 @@ const authenticationMiddleware = async (req, res, next) => {
         console.log(tokendecoded);
         next();
     } catch (error) {
-        console.log("Unauthorized");
-        return false;
+        throw ApiError.unauthorized("Unauthorized", {});
     }
 };
 

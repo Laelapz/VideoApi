@@ -1,29 +1,22 @@
-const Database = require("../utils/database");
+const Model = require("../utils/model");
 
 
-class UsersModel {
+class UsersModel extends Model{
 
-    static async createUser (data) {
-        const id = await Database.insert("users", data);
-        console.log(id);
+    constructor() {
+        super('users');
+    }
+
+    async createUser (data) {
+        const id = await this.insert(data);
         return id;
     }
 
-    static async getById (id) {
-        const result = await Database.getDataById("users", id);
-        console.log(result);
+    async getByEmail (email) {
+        const result = await this.collection.findOne({'email' : email});
         return result;
     }
 
 }
 
-const user = {
-    name : "Nicolas", 
-    email: "nicolassad@gmail.com", 
-    password: "senha321"
-};
-
-// UsersModel.createUser(user);
-// UsersModel.getById("6270322a14b1596c11337800");
-
-module.exports = UsersModel;
+module.exports = new UsersModel();

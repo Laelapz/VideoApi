@@ -7,8 +7,8 @@ const bodySchema = Joi.object({
 });
 
 const route = async (req, res) => {
-    const result = await authController.signin(req.body);
-    return res.status(200).send({ message : result})
+    const token = await authController.signin(req.body);
+    return res.status(200).send({ token: token });
 };
 
 module.exports = { route, bodySchema };
