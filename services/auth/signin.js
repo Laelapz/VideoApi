@@ -1,6 +1,7 @@
 const Joi = require("joi");
 const authController = require("../../controllers/auth");
 
+
 const bodySchema = Joi.object({  
   email: Joi.string().max(30).required(),
   password: Joi.string().min(8).max(20).required()

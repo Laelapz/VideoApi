@@ -1,11 +1,10 @@
 const errorMiddleware = require("./error");
 
 const routeMiddleware = (route) => {
-  return async (req, res) => {
+  return async (req, res, next) => {
     try {
-      return await route(req, res);
+      return await route(req, res, next);
     } catch (err) {
-      console.log("Chegou aqui");
       return errorMiddleware(res, err);
     }
   };

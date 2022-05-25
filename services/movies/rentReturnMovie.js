@@ -17,7 +17,7 @@ const route = async (req, res) => {
     const decodedToken = jwt.verify(req.headers.authorization, "S3nh4T0p");
 
     if ( req.body.action == "rent" ) {
-        result = MoviesController.rentMovie(decodedToken.id, req.params.id);
+        result = await MoviesController.rentMovie(decodedToken.id, req.params.id);
     }
 
     if ( req.body.action == "return" ) {

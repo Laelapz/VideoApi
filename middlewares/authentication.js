@@ -8,8 +8,9 @@ const authenticationMiddleware = async (req, res, next) => {
 
     try {
         const tokendecoded = jwt.verify(token, secret);
-        console.log(tokendecoded);
+        req.userId = tokendecoded.id;
         next();
+        
     } catch (error) {
         throw ApiError.unauthorized("Unauthorized", {});
     }

@@ -1,24 +1,23 @@
 class ApiError extends Error {
-    constructor (status, message, data) {
+    constructor (status, message) {
         super(message);
         this.status = status;
-        this.data = data;
     }
 
-    static badRequest ( message, data ) {
-        return new ApiError(400, message, data);
+    static badRequest ( message ) {
+        return new ApiError(400, message);
     }
 
-    static unauthorized ( message, data ) {
-        return new ApiError(401, message, data);
+    static unauthorized ( message ) {
+        return new ApiError(401, message);
     }
 
-    static forbidden ( message, data ) {
-        return new ApiError(403, message, data);
+    static forbidden ( message ) {
+        return new ApiError(403, message);
     }
 
-    static notFound ( message, data ) {
-        return new ApiError(404, message, data);
+    static notFound ( message ) {
+        return new ApiError(404, message);
     }
 };
 

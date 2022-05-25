@@ -1,4 +1,5 @@
 const UsersController = require("./users");
+const ApiError = require("../utils/apiError");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const bcryptjs = require("bcryptjs");
@@ -22,8 +23,7 @@ class AuthController {
         const result = await UsersController.getByEmail(email);
 
         if ( !bcryptjs.compareSync( password, result.password ) ){
-            console.log("Email ou senha incorreta");
-            return false
+            throw ApiError.badRequest("Email ou senha incorreta");
         }
 
         const token = jwt.sign({ id: result._id, email: result.email }, secret);

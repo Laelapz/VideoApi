@@ -1,4 +1,5 @@
 const Model = require('../utils/model');
+const ApiError = require("../utils/apiError");
 
 class MovieUnitsModel extends Model {
     constructor() {
@@ -10,17 +11,16 @@ class MovieUnitsModel extends Model {
         let result = await this.findById(movieId);
 
         if ( !result ) {
-            console.log("Id inválido");
-            return false;
+            throw ApiError.badRequest("Id inválido");
         }
 
         if ( result.userId != userId ) {
-            console.log("Usuário não possui filme em seu nome");
-            return false;
+            throw ApiError.forbidden("Usuário não possui filme em seu nome");
         }
 
         result.userId = null;
         result = await this.updateByID(movieId, result);
+        result = true;
         return result;
     }
 
@@ -29,18 +29,16 @@ class MovieUnitsModel extends Model {
         let result = await this.findById(movieId);
 
         if ( !result ) {
-            console.log("Id inválido");
-            return false;
+            throw ApiError.badRequest("Invalid Movie Unit");
         }
 
         if ( result.userId != null ) {
-            console.log("Filme já locado");
-            return false;
+            throw ApiError.forbidden("Movie unavailable");
         }
 
         result.userId = userId;
         result = await this.updateByID(movieId, result);
-        console.log("Update completo");
+        result = true;
         return result;
         
     }

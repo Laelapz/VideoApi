@@ -20,8 +20,8 @@ const validationMiddleware = ({ bodySchema, paramsSchema }) => {
       if (paramsSchema) {
         req.params = validate(paramsSchema, req.params);
       }
-
-      return next();
+      next();
+      
     } catch (error) {
       throw ApiError.badRequest("Schemma not valid", {});
 

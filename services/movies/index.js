@@ -9,15 +9,15 @@ const authenticationMiddleware = require("../../middlewares/authentication");
 
 router.patch(
     "/:id",
-    authenticationMiddleware,
-    validationMiddleware({ bodySchema: rentReturnMovie.bodySchema, paramsSchema: rentReturnMovie.paramsSchema }),
+    routeMiddleware(authenticationMiddleware),
+    routeMiddleware(validationMiddleware({ bodySchema: rentReturnMovie.bodySchema, paramsSchema: rentReturnMovie.paramsSchema })),
     routeMiddleware(rentReturnMovie.route)
 );
 
 router.get(
     "/",
-    authenticationMiddleware,
-    validationMiddleware({paramsSchema: listMovies.paramsSchema}),
+    routeMiddleware(authenticationMiddleware),
+    routeMiddleware(validationMiddleware({paramsSchema: listMovies.paramsSchema})),
     routeMiddleware(listMovies.route)
 );
 
